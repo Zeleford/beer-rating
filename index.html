@@ -289,7 +289,7 @@
 </div>
 
 <script>
-    // ========== ВАШИ ССЫЛКИ НА CSV (уже вставлены) ==========
+ 
     const BEERS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTYQLCABc1qJlhQI9HtTb4GgoAKwtye4o3ylpQ0YOQ65b0xrlSIwRNJL0eFmFeBOu318Q69suWWPBcB/pub?gid=0&single=true&output=csv';
     const PEOPLE_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTYQLCABc1qJlhQI9HtTb4GgoAKwtye4o3ylpQ0YOQ65b0xrlSIwRNJL0eFmFeBOu318Q69suWWPBcB/pub?gid=276377425&single=true&output=csv';
     
@@ -391,7 +391,7 @@
             return;
         }
         
-        let options = '<option value="">-- Выберите сотрудника --</option>';
+        let options = '<option value="">-- Выберите эксперта --</option>';
         for (let i = 0; i < peopleTops.length; i++) {
             const person = peopleTops[i];
             options += `<option value="${i}">${escapeHtml(person.name)}</option>`;
@@ -429,7 +429,7 @@
                         <div class="beer-name">${escapeHtml(beer.name)}</div>
                         <div class="beer-meta">${beer.style || ''} ${beer.abv ? '• ' + beer.abv + '%' : ''}</div>
                     </div>
-                    <div class="beer-score">${points} баллов</div>
+                  
                 </div>
             `;
         }
