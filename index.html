@@ -18,7 +18,6 @@
             padding: 0;
         }
 
-        /* Шапка в стиле Синетик */
         .site-header {
             background: #0b1c2e;
             color: white;
@@ -34,7 +33,7 @@
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 20px;
         }
 
         .logo-area {
@@ -57,13 +56,32 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            white-space: nowrap;
         }
 
-        .site-title {
-            font-size: 0.9rem;
-            opacity: 0.8;
-            border-left: 1px solid rgba(255,255,255,0.3);
-            padding-left: 15px;
+        .nav-tabs {
+            display: flex;
+            gap: 8px;
+            background: rgba(255,255,255,0.1);
+            padding: 4px;
+        }
+        .nav-tab-btn {
+            background: none;
+            border: none;
+            padding: 8px 20px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: rgba(255,255,255,0.7);
+        }
+        .nav-tab-btn.active {
+            background: white;
+            color: #0b1c2e;
+        }
+        .nav-tab-btn:hover:not(.active) {
+            background: rgba(255,255,255,0.2);
+            color: white;
         }
 
         .container {
@@ -72,43 +90,6 @@
             padding: 30px 20px;
         }
 
-        /* Табы */
-        .tabs {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 30px;
-            border-bottom: 2px solid #dce4e8;
-            padding-bottom: 10px;
-            flex-wrap: wrap;
-        }
-        .tab-btn {
-            background: none;
-            border: none;
-            padding: 10px 24px;
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            border-radius: 30px;
-            transition: all 0.2s;
-            color: #2c3e4e;
-        }
-        .tab-btn.active {
-            background: #0b1c2e;
-            color: white;
-        }
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.3s;
-        }
-        .tab-content.active {
-            display: block;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        /* Выпадающий список */
         .dropdown-container {
             margin-bottom: 30px;
             display: flex;
@@ -121,14 +102,12 @@
             color: #0b1c2e;
             background: #eef2f5;
             padding: 8px 16px;
-            border-radius: 30px;
             font-size: 0.9rem;
         }
         .person-select {
             padding: 10px 20px;
             font-size: 1rem;
             border: 1px solid #dce4e8;
-            border-radius: 30px;
             background: white;
             cursor: pointer;
             font-family: inherit;
@@ -139,7 +118,6 @@
             border-color: #0b1c2e;
         }
 
-        /* Карточки пива */
         .beer-list {
             display: flex;
             flex-direction: column;
@@ -147,14 +125,12 @@
         }
         .beer-item {
             background: white;
-            border-radius: 12px;
             padding: 16px 20px;
             display: flex;
             align-items: center;
             gap: 20px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             border-left: 5px solid #0b1c2e;
-            transition: transform 0.1s;
         }
         .beer-rank {
             font-size: 1.8rem;
@@ -162,6 +138,13 @@
             color: #0b1c2e;
             min-width: 60px;
             text-align: center;
+        }
+        /* Стили для логотипа пива */
+        .beer-image {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            flex-shrink: 0;
         }
         .beer-info {
             flex: 1;
@@ -180,8 +163,20 @@
             font-weight: bold;
             background: #eef2f5;
             padding: 6px 14px;
-            border-radius: 40px;
             font-size: 0.9rem;
+            color: #0b1c2e;
+        }
+        .person-section {
+            margin-bottom: 30px;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .person-title {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            padding-left: 12px;
+            border-left: 5px solid #0b1c2e;
             color: #0b1c2e;
         }
         .loading, .error {
@@ -192,7 +187,6 @@
         .error {
             color: #b33;
             background: #ffe0e0;
-            border-radius: 16px;
         }
         .subnote {
             text-align: center;
@@ -205,7 +199,6 @@
             padding: 40px;
             color: #6c8eae;
             background: white;
-            border-radius: 16px;
         }
         footer {
             text-align: center;
@@ -220,54 +213,54 @@
                 flex-direction: column;
                 align-items: flex-start;
             }
+            .beer-image {
+                align-self: center;
+            }
             .header-container {
                 flex-direction: column;
                 text-align: center;
             }
-            .site-title {
-                border-left: none;
-                padding-left: 0;
+            .nav-tabs {
+                justify-content: center;
             }
             .dropdown-container {
                 flex-direction: column;
                 align-items: flex-start;
             }
         }
+        
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
     </style>
 </head>
 <body>
 
-<!-- ШАПКА В СТИЛЕ СИНЕТИК -->
 <header class="site-header">
     <div class="header-container">
         <div class="logo-area">
-          
-            <img src="logo.png" alt="Логотип" class="logo-img">
-           
+            <span class="logo-text">🍺 ПИВНОЙ РЕЙТИНГ</span>
         </div>
-        <div class="site-title">
-            На основе 
+        <div class="nav-tabs">
+            <button class="nav-tab-btn active" data-tab="main">🏆 Главный топ-25</button>
+            <button class="nav-tab-btn" data-tab="people">👥 Топ по людям</button>
+            <button class="nav-tab-btn" data-tab="global">🌍 Общий топ всех пив</button>
         </div>
     </div>
 </header>
 
 <div class="container">
-    <div class="tabs">
-        <button class="tab-btn active" data-tab="main">🏆 Топ-25</button>
-        <button class="tab-btn" data-tab="people">👥 Выбор экспертов </button>
-        <button class="tab-btn" data-tab="global">🌍 Общий топ </button>
-    </div>
-
-    <!-- Вкладка: Главный топ-25 -->
     <div id="main" class="tab-content active">
         <div class="beer-list" id="main-list">Загрузка...</div>
         <div class="subnote">1 место = 25 баллов, 25 место = 1 балл</div>
     </div>
 
-    <!-- Вкладка: Топ по людям (с выпадающим списком) -->
     <div id="people" class="tab-content">
         <div class="dropdown-container">
-            <span class="dropdown-label"> Эксперт:</span>
+            <span class="dropdown-label">👤 Выберите сотрудника:</span>
             <select id="person-select" class="person-select">
                 <option value="">-- Загрузка списка --</option>
             </select>
@@ -277,290 +270,305 @@
         </div>
     </div>
 
-    <!-- Вкладка: Общий топ всех пив -->
     <div id="global" class="tab-content">
         <div class="beer-list" id="global-list">Загрузка...</div>
         <div class="subnote">Все сорта из базы с баллами</div>
     </div>
     
     <footer>
-       Тут ничего интересного
+        Данные из Google Sheets • Автоматическое обновление
     </footer>
 </div>
 
 <script>
- 
-    const BEERS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTYQLCABc1qJlhQI9HtTb4GgoAKwtye4o3ylpQ0YOQ65b0xrlSIwRNJL0eFmFeBOu318Q69suWWPBcB/pub?gid=0&single=true&output=csv';
-    const PEOPLE_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTYQLCABc1qJlhQI9HtTb4GgoAKwtye4o3ylpQ0YOQ65b0xrlSIwRNJL0eFmFeBOu318Q69suWWPBcB/pub?gid=276377425&single=true&output=csv';
-    
-    let beers = [];
-    let peopleTops = [];
-    
-    async function fetchCSV(url) {
-        const response = await fetch(url);
-        const text = await response.text();
-        return text;
-    }
-    
-    function parseCSV(csvText) {
-        const rows = [];
-        const lines = csvText.split(/\r?\n/);
-        for (let i = 0; i < lines.length; i++) {
-            const line = lines[i].trim();
-            if (line === '') continue;
-            const row = [];
-            let inQuotes = false;
-            let current = '';
-            for (let ch of line) {
-                if (ch === '"') {
-                    inQuotes = !inQuotes;
-                } else if (ch === ',' && !inQuotes) {
-                    row.push(current.trim());
-                    current = '';
-                } else {
-                    current += ch;
+    (function() {
+        // ========== ВАШИ ССЫЛКИ НА CSV ==========
+        const BEERS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTYQLCABc1qJlhQI9HtTb4GgoAKwtye4o3ylpQ0YOQ65b0xrlSIwRNJL0eFmFeBOu318Q69suWWPBcB/pub?gid=0&single=true&output=csv';
+        const PEOPLE_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTYQLCABc1qJlhQI9HtTb4GgoAKwtye4o3ylpQ0YOQ65b0xrlSIwRNJL0eFmFeBOu318Q69suWWPBcB/pub?gid=276377425&single=true&output=csv';
+        
+        let beers = [];
+        let peopleTops = [];
+        
+        async function fetchCSV(url) {
+            const response = await fetch(url);
+            const text = await response.text();
+            return text;
+        }
+        
+        function parseCSV(csvText) {
+            const rows = [];
+            const lines = csvText.split(/\r?\n/);
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (line === '') continue;
+                const row = [];
+                let inQuotes = false;
+                let current = '';
+                for (let ch of line) {
+                    if (ch === '"') {
+                        inQuotes = !inQuotes;
+                    } else if (ch === ',' && !inQuotes) {
+                        row.push(current.trim());
+                        current = '';
+                    } else {
+                        current += ch;
+                    }
+                }
+                row.push(current.trim());
+                rows.push(row);
+            }
+            return rows;
+        }
+        
+        function getBeerById(id) {
+            return beers.find(b => b.id === id);
+        }
+        
+        function calculateScores() {
+            const scores = new Map();
+            for (const person of peopleTops) {
+                for (let i = 0; i < person.ranks.length; i++) {
+                    const beerId = person.ranks[i];
+                    const points = 25 - i;
+                    scores.set(beerId, (scores.get(beerId) || 0) + points);
                 }
             }
-            row.push(current.trim());
-            rows.push(row);
+            return scores;
         }
-        return rows;
-    }
-    
-    function getBeerById(id) {
-        return beers.find(b => b.id === id);
-    }
-    
-    function calculateScores() {
-        const scores = new Map();
-        for (const person of peopleTops) {
-            for (let i = 0; i < person.ranks.length; i++) {
-                const beerId = person.ranks[i];
-                const points = 25 - i;
-                scores.set(beerId, (scores.get(beerId) || 0) + points);
-            }
+        
+        function getBeersWithScores() {
+            const scores = calculateScores();
+            const result = beers.map(beer => ({ ...beer, score: scores.get(beer.id) || 0 }));
+            result.sort((a, b) => {
+                if (a.score !== b.score) return b.score - a.score;
+                return a.name.localeCompare(b.name);
+            });
+            return result;
         }
-        return scores;
-    }
-    
-    function getBeersWithScores() {
-        const scores = calculateScores();
-        const result = beers.map(beer => ({ ...beer, score: scores.get(beer.id) || 0 }));
-        result.sort((a, b) => {
-            if (a.score !== b.score) return b.score - a.score;
-            return a.name.localeCompare(b.name);
-        });
-        return result;
-    }
-    
-    // Рендер главного топа-25
-    function renderMainTop() {
-        const container = document.getElementById('main-list');
-        if (!beers.length || !peopleTops.length) {
-            container.innerHTML = '<div class="loading">Загрузка...</div>';
-            return;
-        }
-        const items = getBeersWithScores().slice(0, 25);
-        if (items.length === 0) {
-            container.innerHTML = '<div class="error">Нет данных</div>';
-            return;
-        }
-        let html = '<div class="beer-list">';
-        for (let i = 0; i < items.length; i++) {
-            const b = items[i];
-            html += `
+        
+        // Функция для отображения карточки пива с изображением
+        function renderBeerItem(rank, beer, showScore = true, scoreValue = null) {
+            const points = scoreValue !== null ? scoreValue : (beer.score || 0);
+            const imageHtml = beer.image_url && beer.image_url.trim() !== '' 
+                ? `<img src="${escapeHtml(beer.image_url)}" alt="${escapeHtml(beer.name)}" class="beer-image" onerror="this.style.display='none'">`
+                : '';
+            
+            return `
                 <div class="beer-item">
-                    <div class="beer-rank">${i+1}</div>
-                    <div class="beer-info">
-                        <div class="beer-name">${escapeHtml(b.name)}</div>
-                        <div class="beer-meta">${b.style || ''} ${b.abv ? '• ' + b.abv + '%' : ''} ${b.brewery ? '• ' + b.brewery : ''}</div>
-                    </div>
-                    <div class="beer-score">${b.score} баллов</div>
-                </div>
-            `;
-        }
-        html += '</div>';
-        container.innerHTML = html;
-    }
-    
-    // Заполнение выпадающего списка
-    function populateDropdown() {
-        const select = document.getElementById('person-select');
-        if (!peopleTops.length) {
-            select.innerHTML = '<option value="">-- Нет данных --</option>';
-            return;
-        }
-        
-        let options = '<option value="">-- Выберите эксперта --</option>';
-        for (let i = 0; i < peopleTops.length; i++) {
-            const person = peopleTops[i];
-            options += `<option value="${i}">${escapeHtml(person.name)}</option>`;
-        }
-        select.innerHTML = options;
-    }
-    
-    // Рендер топа выбранного человека
-    function renderSelectedPerson(personIndex) {
-        const container = document.getElementById('people-list');
-        
-        if (personIndex === null || personIndex === undefined || personIndex === '') {
-            container.innerHTML = '<div class="empty-message">👈 Выберите сотрудника из списка выше</div>';
-            return;
-        }
-        
-        const person = peopleTops[personIndex];
-        if (!person) {
-            container.innerHTML = '<div class="error">Сотрудник не найден</div>';
-            return;
-        }
-        
-        let html = `<div class="person-section">
-                        <div class="person-title">🍺 Топ-25: ${escapeHtml(person.name)}</div>
-                        <div class="beer-list">`;
-        
-        for (let i = 0; i < person.ranks.length; i++) {
-            const beer = getBeerById(person.ranks[i]);
-            if (!beer) continue;
-            const points = 25 - i;
-            html += `
-                <div class="beer-item">
-                    <div class="beer-rank">${i+1}</div>
+                    <div class="beer-rank">${rank}</div>
+                    ${imageHtml}
                     <div class="beer-info">
                         <div class="beer-name">${escapeHtml(beer.name)}</div>
-                        <div class="beer-meta">${beer.style || ''} ${beer.abv ? '• ' + beer.abv + '%' : ''}</div>
+                        <div class="beer-meta">${beer.style || ''} ${beer.abv ? '• ' + beer.abv + '%' : ''} ${beer.brewery ? '• ' + beer.brewery : ''}</div>
                     </div>
-                  
+                    ${showScore ? `<div class="beer-score">${points} баллов</div>` : ''}
                 </div>
             `;
         }
-        html += `</div></div>`;
-        container.innerHTML = html;
-    }
-    
-    // Рендер общего топа
-    function renderGlobalTop() {
-        const container = document.getElementById('global-list');
-        if (!beers.length || !peopleTops.length) {
-            container.innerHTML = '<div class="loading">Загрузка...</div>';
-            return;
-        }
-        const items = getBeersWithScores();
-        if (items.length === 0) {
-            container.innerHTML = '<div class="error">Нет данных</div>';
-            return;
-        }
-        let html = '<div class="beer-list">';
-        for (let i = 0; i < items.length; i++) {
-            const b = items[i];
-            html += `
-                <div class="beer-item">
-                    <div class="beer-rank">${i+1}</div>
-                    <div class="beer-info">
-                        <div class="beer-name">${escapeHtml(b.name)}</div>
-                        <div class="beer-meta">${b.style || ''} ${b.abv ? '• ' + b.abv + '%' : ''} ${b.brewery ? '• ' + b.brewery : ''}</div>
-                    </div>
-                    <div class="beer-score">${b.score} баллов</div>
-                </div>
-            `;
-        }
-        html += '</div>';
-        container.innerHTML = html;
-    }
-    
-    // Загрузка всех данных
-    async function loadAllData() {
-        try {
-            const beersCSV = await fetchCSV(BEERS_URL);
-            const beersRows = parseCSV(beersCSV);
-            beers = [];
-            for (let i = 1; i < beersRows.length; i++) {
-                const row = beersRows[i];
-                if (row[0] && row[1]) {
-                    beers.push({
-                        id: parseInt(row[0]),
-                        name: row[1],
-                        style: row[2] || '',
-                        abv: row[3] || '',
-                        brewery: row[4] || ''
-                    });
-                }
+        
+        function renderMainTop() {
+            const container = document.getElementById('main-list');
+            if (!beers.length || !peopleTops.length) {
+                container.innerHTML = '<div class="loading">Загрузка...</div>';
+                return;
             }
-            
-            const peopleCSV = await fetchCSV(PEOPLE_URL);
-            const peopleRows = parseCSV(peopleCSV);
-            peopleTops = [];
-            for (let i = 1; i < peopleRows.length; i++) {
-                const row = peopleRows[i];
-                const name = row[0];
-                const ranks = [];
-                for (let j = 1; j <= 25; j++) {
-                    const val = parseInt(row[j]);
-                    if (!isNaN(val)) ranks.push(val);
-                }
-                if (name && ranks.length === 25) {
-                    peopleTops.push({ name, ranks });
-                }
+            const items = getBeersWithScores().slice(0, 25);
+            if (items.length === 0) {
+                container.innerHTML = '<div class="error">Нет данных</div>';
+                return;
             }
-            
-            renderMainTop();
-            populateDropdown();      // заполняем выпадающий список
-            renderGlobalTop();
-            
-            // Если ранее был выбран человек в dropdown, показываем его топ
+            let html = '<div class="beer-list">';
+            for (let i = 0; i < items.length; i++) {
+                const b = items[i];
+                html += renderBeerItem(i+1, b, true, b.score);
+            }
+            html += '</div>';
+            container.innerHTML = html;
+        }
+        
+        function populateDropdown() {
             const select = document.getElementById('person-select');
-            if (select && select.value !== '') {
-                renderSelectedPerson(parseInt(select.value));
-            } else {
-                renderSelectedPerson(null);
+            if (!select) return;
+            if (!peopleTops.length) {
+                select.innerHTML = '<option value="">-- Нет данных --</option>';
+                return;
             }
             
-        } catch (err) {
-            console.error(err);
-            const errMsg = '<div class="error">Ошибка загрузки. Проверьте ссылки на CSV.</div>';
-            document.getElementById('main-list').innerHTML = errMsg;
-            document.getElementById('people-list').innerHTML = errMsg;
-            document.getElementById('global-list').innerHTML = errMsg;
+            let options = '<option value="">-- Выберите сотрудника --</option>';
+            for (let i = 0; i < peopleTops.length; i++) {
+                const person = peopleTops[i];
+                options += `<option value="${i}">${escapeHtml(person.name)}</option>`;
+            }
+            select.innerHTML = options;
         }
-    }
-    
-    function escapeHtml(str) {
-        if (!str) return '';
-        return str.replace(/[&<>]/g, function(m) {
-            if (m === '&') return '&amp;';
-            if (m === '<') return '&lt;';
-            if (m === '>') return '&gt;';
-            return m;
-        });
-    }
-    
-    // Переключение вкладок
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const tabId = btn.dataset.tab;
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-        });
-    });
-    
-    // Обработчик изменения выпадающего списка
-    document.addEventListener('DOMContentLoaded', () => {
-        const select = document.getElementById('person-select');
-        if (select) {
-            select.addEventListener('change', (e) => {
-                const value = e.target.value;
-                if (value === '') {
-                    renderSelectedPerson(null);
+        
+        function renderSelectedPerson(personIndex) {
+            const container = document.getElementById('people-list');
+            if (!container) return;
+            
+            if (personIndex === null || personIndex === undefined || personIndex === '') {
+                container.innerHTML = '<div class="empty-message">👈 Выберите сотрудника из списка выше</div>';
+                return;
+            }
+            
+            const person = peopleTops[personIndex];
+            if (!person) {
+                container.innerHTML = '<div class="error">Сотрудник не найден</div>';
+                return;
+            }
+            
+            let html = `<div class="person-section">
+                            <div class="person-title">🍺 Топ-25: ${escapeHtml(person.name)}</div>
+                            <div class="beer-list">`;
+            
+            for (let i = 0; i < person.ranks.length; i++) {
+                const beer = getBeerById(person.ranks[i]);
+                if (!beer) continue;
+                // В анкетах людей баллы НЕ показываем (showScore = false)
+                html += renderBeerItem(i+1, beer, false);
+            }
+            html += `</div></div>`;
+            container.innerHTML = html;
+        }
+        
+        function renderGlobalTop() {
+            const container = document.getElementById('global-list');
+            if (!beers.length || !peopleTops.length) {
+                container.innerHTML = '<div class="loading">Загрузка...</div>';
+                return;
+            }
+            const items = getBeersWithScores();
+            if (items.length === 0) {
+                container.innerHTML = '<div class="error">Нет данных</div>';
+                return;
+            }
+            let html = '<div class="beer-list">';
+            for (let i = 0; i < items.length; i++) {
+                const b = items[i];
+                html += renderBeerItem(i+1, b, true, b.score);
+            }
+            html += '</div>';
+            container.innerHTML = html;
+        }
+        
+        async function loadAllData() {
+            try {
+                const beersCSV = await fetchCSV(BEERS_URL);
+                const beersRows = parseCSV(beersCSV);
+                beers = [];
+                for (let i = 1; i < beersRows.length; i++) {
+                    const row = beersRows[i];
+                    if (row[0] && row[1]) {
+                        beers.push({
+                            id: parseInt(row[0]),
+                            name: row[1],
+                            style: row[2] || '',
+                            abv: row[3] || '',
+                            brewery: row[4] || '',
+                            image_url: row[5] || ''   // НОВОЕ ПОЛЕ: ссылка на картинку пива
+                        });
+                    }
+                }
+                
+                const peopleCSV = await fetchCSV(PEOPLE_URL);
+                const peopleRows = parseCSV(peopleCSV);
+                peopleTops = [];
+                for (let i = 1; i < peopleRows.length; i++) {
+                    const row = peopleRows[i];
+                    const name = row[0];
+                    const ranks = [];
+                    for (let j = 1; j <= 25; j++) {
+                        const val = parseInt(row[j]);
+                        if (!isNaN(val)) ranks.push(val);
+                    }
+                    if (name && ranks.length === 25) {
+                        peopleTops.push({ name, ranks });
+                    }
+                }
+                
+                renderMainTop();
+                populateDropdown();
+                renderGlobalTop();
+                
+                const select = document.getElementById('person-select');
+                if (select && select.value !== '') {
+                    renderSelectedPerson(parseInt(select.value));
                 } else {
-                    renderSelectedPerson(parseInt(value));
+                    renderSelectedPerson(null);
+                }
+                
+            } catch (err) {
+                console.error(err);
+                const errMsg = '<div class="error">Ошибка загрузки. Проверьте ссылки на CSV.</div>';
+                document.getElementById('main-list').innerHTML = errMsg;
+                document.getElementById('people-list').innerHTML = errMsg;
+                document.getElementById('global-list').innerHTML = errMsg;
+            }
+        }
+        
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+        
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            const activeTab = document.getElementById(tabId);
+            if (activeTab) {
+                activeTab.classList.add('active');
+            }
+            
+            document.querySelectorAll('.nav-tab-btn').forEach(btn => {
+                if (btn.dataset.tab === tabId) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
                 }
             });
         }
-    });
-    
-    // Запуск
-    loadAllData();
+        
+        function initNavigation() {
+            const buttons = document.querySelectorAll('.nav-tab-btn');
+            buttons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const tabId = this.dataset.tab;
+                    if (tabId) {
+                        switchTab(tabId);
+                    }
+                });
+            });
+        }
+        
+        function initDropdown() {
+            const select = document.getElementById('person-select');
+            if (select) {
+                select.addEventListener('change', (e) => {
+                    const value = e.target.value;
+                    if (value === '') {
+                        renderSelectedPerson(null);
+                    } else {
+                        renderSelectedPerson(parseInt(value));
+                    }
+                });
+            }
+        }
+        
+        window.addEventListener('DOMContentLoaded', function() {
+            initNavigation();
+            initDropdown();
+            loadAllData();
+        });
+    })();
 </script>
+</body>
+</html>
 </body>
 </html>
