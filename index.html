@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пивной рейтинг</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #f5f0e8;
+            color: #2c241a;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #c67c2e;
+            font-size: 2.5rem;
+        }
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #d4c5b0;
+            padding-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            border-radius: 8px 8px 0 0;
+            transition: all 0.2s;
+            color: #6b5a4a;
+        }
+        .tab-btn.active {
+            background: #c67c2e;
+            color: white;
+        }
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .beer-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .beer-item {
+            background: white;
+            border-radius: 16px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .beer-rank {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #c67c2e;
+            min-width: 60px;
+            text-align: center;
+        }
+        .beer-info {
+            flex: 1;
+        }
+        .beer-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        .beer-meta {
+            font-size: 0.85rem;
+            color: #7f6e5a;
+            margin-top: 4px;
+        }
+        .beer-score {
+            font-weight: bold;
+            background: #e8e0d5;
+            padding: 6px 12px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+        }
+        .person-section {
+            margin-bottom: 30px;
+        }
+        .person-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            padding-left: 10px;
+            border-left: 5px solid #c67c2e;
+        }
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2rem;
+            color: #7f6e5a;
+        }
+        .error {
+            text-align: center;
+            padding: 50px;
+            color: #b33;
+            background: #ffe0e0;
+            border-radius: 16px;
+        }
+        .subnote {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.8rem;
+            color: #9b8a76;
+        }
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #9b8a76;
+            font-size: 0.8rem;
+        }
+        @media (max-width: 700px) {
+            .beer-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .beer-rank {
+                align-self: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🍺 Пивной рейтинг коллег</h1>
+
+    <div class="tabs">
+        <button class="tab-btn active" data-tab="main">🏆 Главный топ-25</button>
+        <button class="tab-btn" data-tab="people">👥 Топ по людям</button>
+        <button class="tab-btn" data-tab="global">🌍 Общий топ всех пив</button>
+    </div>
+
+    <div id="main" class="tab-content active">
+        <div class="beer-list" id="main-list">Загрузка...</div>
+        <div class="subnote">Топ-25 пив по сумме баллов (1 место = 25 баллов, 25 место = 1 балл)</div>
+    </div>
+    <div id="people" class="tab-content">
+        <div id="people-list">Загрузка...</div>
+    </div>
+    <div id="global" class="tab-content">
+        <div class="beer-list" id="global-list">Загрузка...</div>
+        <div class="subnote">Все пива из базы, отсортированные по сумме баллов</div>
+    </div>
+    <footer>Данные из Google Sheets</footer>
+</div>
+
+<script>
+    // ========== ВАШИ ССЫЛКИ НА CSV (уже вставлены) ==========
+    const BEERS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTYQLCABc1qJlhQI9HtTb4GgoAKwtye4o3ylpQ0YOQ65b0xrlSIwRNJL0eFmFeBOu318Q69suWWPBcB/pub?gid=0&single=true&output=csv';
+    const PEOPLE_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTYQLCABc1qJlhQI9HtTb4GgoAKwtye4o3ylpQ0YOQ65b0xrlSIwRNJL0eFmFeBOu318Q69suWWPBcB/pub?gid=276377425&single=true&output=csv';
+    
+    let beers = [];
+    let peopleTops = [];
+    
+    async function fetchCSV(url) {
+        const response = await fetch(url);
+        const text = await response.text();
+        return text;
+    }
+    
+    function parseCSV(csvText) {
+        const rows = [];
+        const lines = csvText.split(/\r?\n/);
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i].trim();
+            if (line === '') continue;
+            const row = [];
+            let inQuotes = false;
+            let current = '';
+            for (let ch of line) {
+                if (ch === '"') {
+                    inQuotes = !inQuotes;
+                } else if (ch === ',' && !inQuotes) {
+                    row.push(current.trim());
+                    current = '';
+                } else {
+                    current += ch;
+                }
+            }
+            row.push(current.trim());
+            rows.push(row);
+        }
+        return rows;
+    }
+    
+    function getBeerById(id) {
+        return beers.find(b => b.id === id);
+    }
+    
+    function calculateScores() {
+        const scores = new Map();
+        for (const person of peopleTops) {
+            for (let i = 0; i < person.ranks.length; i++) {
+                const beerId = person.ranks[i];
+                const points = 25 - i;
+                scores.set(beerId, (scores.get(beerId) || 0) + points);
+            }
+        }
+        return scores;
+    }
+    
+    function getBeersWithScores() {
+        const scores = calculateScores();
+        const result = beers.map(beer => ({ ...beer, score: scores.get(beer.id) || 0 }));
+        result.sort((a, b) => {
+            if (a.score !== b.score) return b.score - a.score;
+            return a.name.localeCompare(b.name);
+        });
+        return result;
+    }
+    
+    function renderMainTop() {
+        const container = document.getElementById('main-list');
+        if (!beers.length || !peopleTops.length) {
+            container.innerHTML = '<div class="loading">Загрузка...</div>';
+            return;
+        }
+        const items = getBeersWithScores().slice(0, 25);
+        if (items.length === 0) {
+            container.innerHTML = '<div class="error">Нет данных</div>';
+            return;
+        }
+        let html = '<div class="beer-list">';
+        for (let i = 0; i < items.length; i++) {
+            const b = items[i];
+            html += `
+                <div class="beer-item">
+                    <div class="beer-rank">${i+1}</div>
+                    <div class="beer-info">
+                        <div class="beer-name">${escapeHtml(b.name)}</div>
+                        <div class="beer-meta">${b.style || ''} ${b.abv ? '• ' + b.abv + '%' : ''} ${b.brewery ? '• ' + b.brewery : ''}</div>
+                    </div>
+                    <div class="beer-score">${b.score} баллов</div>
+                </div>
+            `;
+        }
+        html += '</div>';
+        container.innerHTML = html;
+    }
+    
+    function renderPeopleTop() {
+        const container = document.getElementById('people-list');
+        if (!beers.length || !peopleTops.length) {
+            container.innerHTML = '<div class="loading">Загрузка...</div>';
+            return;
+        }
+        let html = '';
+        for (const person of peopleTops) {
+            html += `<div class="person-section">
+                        <div class="person-title">🍺 ${escapeHtml(person.name)}</div>
+                        <div class="beer-list">`;
+            for (let i = 0; i < person.ranks.length; i++) {
+                const beer = getBeerById(person.ranks[i]);
+                if (!beer) continue;
+                html += `
+                    <div class="beer-item">
+                        <div class="beer-rank">${i+1}</div>
+                        <div class="beer-info">
+                            <div class="beer-name">${escapeHtml(beer.name)}</div>
+                            <div class="beer-meta">${beer.style || ''} ${beer.abv ? '• ' + beer.abv + '%' : ''}</div>
+                        </div>
+                        <div class="beer-score">${25 - i} баллов</div>
+                    </div>
+                `;
+            }
+            html += `</div></div>`;
+        }
+        container.innerHTML = html;
+    }
+    
+    function renderGlobalTop() {
+        const container = document.getElementById('global-list');
+        if (!beers.length || !peopleTops.length) {
+            container.innerHTML = '<div class="loading">Загрузка...</div>';
+            return;
+        }
+        const items = getBeersWithScores();
+        if (items.length === 0) {
+            container.innerHTML = '<div class="error">Нет данных</div>';
+            return;
+        }
+        let html = '<div class="beer-list">';
+        for (let i = 0; i < items.length; i++) {
+            const b = items[i];
+            html += `
+                <div class="beer-item">
+                    <div class="beer-rank">${i+1}</div>
+                    <div class="beer-info">
+                        <div class="beer-name">${escapeHtml(b.name)}</div>
+                        <div class="beer-meta">${b.style || ''} ${b.abv ? '• ' + b.abv + '%' : ''} ${b.brewery ? '• ' + b.brewery : ''}</div>
+                    </div>
+                    <div class="beer-score">${b.score} баллов</div>
+                </div>
+            `;
+        }
+        html += '</div>';
+        container.innerHTML = html;
+    }
+    
+    async function loadAllData() {
+        try {
+            const beersCSV = await fetchCSV(BEERS_URL);
+            const beersRows = parseCSV(beersCSV);
+            beers = [];
+            for (let i = 1; i < beersRows.length; i++) {
+                const row = beersRows[i];
+                if (row[0] && row[1]) {
+                    beers.push({
+                        id: parseInt(row[0]),
+                        name: row[1],
+                        style: row[2] || '',
+                        abv: row[3] || '',
+                        brewery: row[4] || ''
+                    });
+                }
+            }
+            
+            const peopleCSV = await fetchCSV(PEOPLE_URL);
+            const peopleRows = parseCSV(peopleCSV);
+            peopleTops = [];
+            for (let i = 1; i < peopleRows.length; i++) {
+                const row = peopleRows[i];
+                const name = row[0];
+                const ranks = [];
+                for (let j = 1; j <= 25; j++) {
+                    const val = parseInt(row[j]);
+                    if (!isNaN(val)) ranks.push(val);
+                }
+                if (name && ranks.length === 25) {
+                    peopleTops.push({ name, ranks });
+                }
+            }
+            
+            renderMainTop();
+            renderPeopleTop();
+            renderGlobalTop();
+        } catch (err) {
+            console.error(err);
+            const errMsg = '<div class="error">Ошибка загрузки. Проверьте ссылки на CSV.</div>';
+            document.getElementById('main-list').innerHTML = errMsg;
+            document.getElementById('people-list').innerHTML = errMsg;
+            document.getElementById('global-list').innerHTML = errMsg;
+        }
+    }
+    
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+    
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tabId = btn.dataset.tab;
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+        });
+    });
+    
+    loadAllData();
+</script>
+</body>
+</html>
